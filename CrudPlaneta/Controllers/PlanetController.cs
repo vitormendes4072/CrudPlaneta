@@ -41,5 +41,9 @@ namespace CrudPlaneta.Controllers
             return RedirectToAction("ToRegister");
         }
 
+        public IActionResult ToList()
+        {
+            return View(_base);
+        }
     }
 }

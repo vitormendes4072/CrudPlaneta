@@ -1,0 +1,39 @@
+﻿@model IList<Planet>
+
+@{
+    ViewData["title"] = "List";
+}
+
+<h1>Planet list</h1>
+
+<table class="table">
+    <thead class="thead-dark">
+        <tr>
+            <th scope="col">Id</th>
+            <th scope="col">Name</th>
+            <th scope="col">Discovery</th>
+            <th scope="col">Habitable</th>
+            <th scope="col">Kind of planet</th>
+            <th scope="col">Atmosphere</th>
+            <th scope="col">Galaxy</th>
+            <th scope="col">Transalation time</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach(var item in Model)
+        {
+            <tr>
+                <td>@item.Id</td>
+                <td>@item.Name</td>
+                <td>@item.Discovery.ToShortDateString()</td>
+                <td>@(item.Habitable?"Yes":"No")</td>
+                <td>@item.KindOfPlanet</td>
+                <td>@item.Atmosphere</td>
+                <td>@item.Galaxy</td>
+                <td>@item.TranslationTime</td>
+            </tr>
+        }
+    </tbody>
+</table>
+<a asp-action="toRegister" class="btn btn-dark">Resister planet</a>
