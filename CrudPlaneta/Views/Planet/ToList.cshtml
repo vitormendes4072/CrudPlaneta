@@ -1,13 +1,17 @@
 ﻿@model IList<Planet>
 
-@{
+    @{
     ViewData["title"] = "List";
-}
+    }
 
-<h1>Planet list</h1>
+    @if (TempData["msg"] != null)
+    {
+    @TempData["msg"]
+    }
 
-<table class="table">
-    <thead class="thead-dark">
+    <h1>Planet list</h1>
+
+    <table class="table">
         <tr>
             <th scope="col">Id</th>
             <th scope="col">Name</th>
@@ -19,21 +23,50 @@
             <th scope="col">Transalation time</th>
             <th></th>
         </tr>
-    </thead>
-    <tbody>
-        @foreach(var item in Model)
+        @foreach (var item in Model)
         {
-            <tr>
-                <td>@item.Id</td>
-                <td>@item.Name</td>
-                <td>@item.Discovery.ToShortDateString()</td>
-                <td>@(item.Habitable?"Yes":"No")</td>
-                <td>@item.KindOfPlanet</td>
-                <td>@item.Atmosphere</td>
-                <td>@item.Galaxy</td>
-                <td>@item.TranslationTime</td>
-            </tr>
+        <tr>
+            <td>@item.Id</td>
+            <td>@item.Name</td>
+            <td>@item.Discovery.ToShortDateString()</td>
+            <td>(@item.Habitable?"Yes": "No")</td>
+            <td>@item.KindOfPlanet</td>
+            <td>@item.Atmosphere</td>
+            <td>@item.Galaxy</td>
+            <td>@item.TranslationTime</td>
+            <td>
+                <a asp-action="toEdit" asp-route-id="@item.Id" class="btn btn-primary btn-sm">Edit</a>
+                <!-- Button trigger modal -->
+                <!--Ao clicar no botão, seta o Id do planeta no campo do formulário do Modal-->
+                <button onclick="idPlanet.value = @item.Id" type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#exampleModal">
+                    Remover
+                </button>
+            </td>
+        </tr>
         }
-    </tbody>
-</table>
-<a asp-action="toRegister" class="btn btn-dark">Resister planet</a>
+    </table>
+    <a asp-action="toRegister" class="btn btn-dark">Register</a>
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Confirmation</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Are you sure you want to delete the planet?
+                </div>
+                <div class="modal-footer">
+                    <form asp-action="toDelete">
+                        <input type="hidden" name="id" id="idPlanet" />
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                        <button type="submit" class="btn btn-danger">Yes</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>

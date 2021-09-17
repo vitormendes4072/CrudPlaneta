@@ -45,5 +45,39 @@ namespace CrudPlaneta.Controllers
         {
             return View(_base);
         }
+
+        [HttpGet]
+        public IActionResult ToEdit(int id)
+        {
+            LoadData();
+            //Find the planet by Id
+            var planet = _base.Find(planet => planet.Id == id);
+            
+            //Send the planet to View
+            return View(planet);
+        }
+
+        [HttpPost]
+        public IActionResult ToEdit(Planet planet)
+        {
+            //Update the planet in the list, find the element position in the list 
+            _base[_base.FindIndex(item => item.Id == planet.Id)] = planet;
+
+            //Success message
+            TempData["msg"] = "Planet updated!";
+
+            //Redirect to page of List
+            return RedirectToAction("ToList");
+        }
+
+        [HttpPost]
+        public IActionResult ToDelete(int id)
+        {
+            _base.RemoveAll(planet => planet.Id == id);
+
+            TempData["msg"] = "Planet removed!";
+
+            return RedirectToAction("ToList");
+        }
     }
 }
